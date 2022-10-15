@@ -1,0 +1,53 @@
+import Image from "next/image"
+
+import { AiFillHome, AiOutlineFileSearch } from 'react-icons/ai'
+import { BsCardChecklist } from 'react-icons/bs'
+import { FaUserAlt } from 'react-icons/fa'
+import { SiAiqfome } from 'react-icons/si'
+
+interface IItemOnNavbar {
+  children: any,
+  className?: string
+}
+
+const ItemOnNavbar = ({ children, className = '' }: IItemOnNavbar) => {
+  return (
+    <div className={className + " w-full hover:bg-cyan-sesqui flex justify-center md:hover:scale-105 py-2 cursor-pointer"}>
+      {children}
+    </div>
+  )
+}
+
+const Layout = ({ children }: any) => {
+  return (
+    <div className="w-screen h-screen flex flex-col-reverse md:flex-row ">
+      <div className="w-full md:w-16 h-[10vh] md:h-[90vh] bg-dark-sesqui text-white rounded-t-lg md:rounded-xl md:ml-2 md:my-auto bg-opacity-90 flex flex-row md:flex-col md:justify-between items-center py-4 bottom-0">
+        <div className="w-full flex flex-row md:flex-col items-center md:gap-3">
+          {/* <Image src={'/images/logo.svg'} width={50} height={50} /> */}
+          <SiAiqfome className={'w-10 h-10 cursor-pointer hidden md:block'} />
+          <hr className="w-full hidden md:block"></hr>
+          <ItemOnNavbar>
+            <AiFillHome className={'w-6 h-6'} />
+          </ItemOnNavbar>
+          <ItemOnNavbar className="">
+            <BsCardChecklist className={'w-6 h-6'} />
+          </ItemOnNavbar>
+          <ItemOnNavbar>
+            <AiOutlineFileSearch className="w-6 h-6" />
+          </ItemOnNavbar>
+          <ItemOnNavbar className={'md:hidden'}>
+            <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
+          </ItemOnNavbar>
+        </div>
+        <div className="justify-center hidden md:flex">
+          <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
+        </div>
+      </div>
+      <main className="h-[90vh] md:h-full">
+        {children}
+      </main>
+    </div>
+  )
+}
+
+export default Layout
