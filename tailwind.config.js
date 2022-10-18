@@ -12,7 +12,7 @@ module.exports = {
         'yellow-sesqui': '#F8B72E',
         'orange-sesqui': '#E85437',
         'cyan-sesqui': '#009A85',
-        'purple-sesqui': '#009A85',
+        'purple-sesqui': '#511747',
         'blue-sesqui': '#0083A9',
         'indigo-sesqui': '#38254C',
         'dark-sesqui': '#2D2036'

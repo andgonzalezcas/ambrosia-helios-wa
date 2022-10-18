@@ -1,24 +1,26 @@
 import Image from "next/image"
+import { useRouter } from 'next/router'
 
-import { AiFillHome, AiOutlineFileSearch } from 'react-icons/ai'
-import { BsCardChecklist } from 'react-icons/bs'
-import { FaUserAlt } from 'react-icons/fa'
 import { SiAiqfome } from 'react-icons/si'
+import { FaUserAlt } from 'react-icons/fa'
+import { RiHome3Fill, RiBook2Fill, RiCheckboxMultipleLine, RiBook3Fill } from 'react-icons/ri'
 
 interface IItemOnNavbar {
-  children: any,
+  children: JSX.Element,
   className?: string
 }
 
 const ItemOnNavbar = ({ children, className = '' }: IItemOnNavbar) => {
   return (
-    <div className={className + " w-full hover:bg-cyan-sesqui flex justify-center md:hover:scale-105 py-2 cursor-pointer"}>
+    <div className={className + " w-full hover:bg-cyan-sesqui flex justify-center md:hover:scale-105 py-2 cursor-pointer rounded-sm"}>
       {children}
     </div>
   )
 }
 
-const Layout = ({ children }: any) => {
+const Layout = ({ children }: { children: JSX.Element }) => {
+  const router = useRouter()
+
   return (
     <div className="w-screen h-screen flex flex-col-reverse md:flex-row ">
       <div className="w-full md:w-16 h-[10vh] md:h-[90vh] bg-dark-sesqui text-white rounded-t-lg md:rounded-xl md:ml-2 md:my-auto bg-opacity-90 flex flex-row md:flex-col md:justify-between items-center py-4 bottom-0">
@@ -27,13 +29,16 @@ const Layout = ({ children }: any) => {
           <SiAiqfome className={'w-10 h-10 cursor-pointer hidden md:block'} />
           <hr className="w-full hidden md:block"></hr>
           <ItemOnNavbar>
-            <AiFillHome className={'w-6 h-6'} />
+            <RiCheckboxMultipleLine className={'w-6 h-6'} />
           </ItemOnNavbar>
           <ItemOnNavbar className="">
-            <BsCardChecklist className={'w-6 h-6'} />
+            <RiBook2Fill className={'w-6 h-6'} />
           </ItemOnNavbar>
           <ItemOnNavbar>
-            <AiOutlineFileSearch className="w-6 h-6" />
+            <RiHome3Fill className="w-6 h-6" />
+          </ItemOnNavbar>
+          <ItemOnNavbar>
+            <RiBook3Fill className="w-6 h-6" />
           </ItemOnNavbar>
           <ItemOnNavbar className={'md:hidden'}>
             <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
@@ -43,7 +48,7 @@ const Layout = ({ children }: any) => {
           <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
         </div>
       </div>
-      <main className="h-[90vh] md:h-full">
+      <main className="h-[90vh] md:h-full w-full flex justify-center">
         {children}
       </main>
     </div>
