@@ -1,25 +1,29 @@
-import Image from "next/image"
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import { SiAiqfome } from 'react-icons/si'
 import { FaUserAlt } from 'react-icons/fa'
 import { RiHome3Fill, RiBook2Fill, RiCheckboxMultipleLine, RiBook3Fill } from 'react-icons/ri'
 
 interface IItemOnNavbar {
+  href: string
   children: JSX.Element,
   className?: string
 }
 
-const ItemOnNavbar = ({ children, className = '' }: IItemOnNavbar) => {
+const ItemOnNavbar = ({ children, className = '', href }: IItemOnNavbar) => {
   return (
-    <div className={className + " w-full hover:bg-cyan-sesqui flex justify-center md:hover:scale-105 py-2 cursor-pointer rounded-sm"}>
-      {children}
-    </div>
+    <button
+      className={className + " w-full hover:bg-cyan-sesqui flex justify-center md:hover:scale-105 py-2 cursor-pointer rounded-sm"}
+    >
+      <Link href={href}>
+        {children}
+      </Link>
+    </button>
   )
 }
 
 const Layout = ({ children }: { children: JSX.Element }) => {
-  const router = useRouter()
 
   return (
     <div className="w-screen h-screen flex flex-col-reverse md:flex-row ">
@@ -28,24 +32,26 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           {/* <Image src={'/images/logo.svg'} width={50} height={50} /> */}
           <SiAiqfome className={'w-10 h-10 cursor-pointer hidden md:block'} />
           <hr className="w-full hidden md:block"></hr>
-          <ItemOnNavbar>
+          <ItemOnNavbar href='/schedule-list'>
             <RiCheckboxMultipleLine className={'w-6 h-6'} />
           </ItemOnNavbar>
-          <ItemOnNavbar className="">
+          <ItemOnNavbar className="" href='/input-grades'>
             <RiBook2Fill className={'w-6 h-6'} />
           </ItemOnNavbar>
-          <ItemOnNavbar>
+          <ItemOnNavbar href='/'>
             <RiHome3Fill className="w-6 h-6" />
           </ItemOnNavbar>
-          <ItemOnNavbar>
+          <ItemOnNavbar href='/'>
             <RiBook3Fill className="w-6 h-6" />
           </ItemOnNavbar>
-          <ItemOnNavbar className={'md:hidden'}>
+          <ItemOnNavbar className={'md:hidden'} href='/'>
             <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
           </ItemOnNavbar>
         </div>
         <div className="justify-center hidden md:flex">
-          <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
+          <Link href={'/'}>
+            <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
+          </Link>
         </div>
       </div>
       <main className="h-[90vh] md:h-full w-full flex justify-center">

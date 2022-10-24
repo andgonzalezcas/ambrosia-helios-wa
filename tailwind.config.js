@@ -1,11 +1,16 @@
+const withMT = require("@material-tailwind/react/utils/withMT");
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports = withMT({
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'login-background': "url('/images/bogota3.jpg')"
+      },
       colors: {
         'white-sesqui': '#F7EED3',
         'red-sesqui': '#E6313F',
@@ -20,4 +25,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+})
