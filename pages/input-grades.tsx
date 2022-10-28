@@ -72,11 +72,11 @@ const InputGrades = () => {
       {
         available
           ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-5 gap-1 h-full w-full p-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-5 gap-20 h-full w-full p-10">
               {
                 pageIndex === 0
                   ? <div></div>
-                  : <Button className="flex justify-center mt-20 ml-3 items-center max-h-14" onClick={() => paginate(-1)} color='lime'>
+                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(-1)} color='lime'>
                     <GrFormPreviousLink size={30} />
                     <p className="text-sm">pagina anterior</p>
                   </Button>
@@ -85,7 +85,7 @@ const InputGrades = () => {
               {
                 pageIndex === pages.length - 1
                   ? <div></div>
-                  : <Button className="flex justify-center mt-20 items-center max-h-14" onClick={() => paginate(1)} color='lime'>
+                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(1)} color='lime'>
                     <p className="text-sm">pagina siguiente</p>
                     <GrFormNextLink size={30} />
                   </Button>

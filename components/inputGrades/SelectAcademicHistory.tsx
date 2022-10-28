@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Checkbox } from "@material-tailwind/react"
 
 interface ISelectAcademicHistory { 
@@ -15,8 +14,8 @@ const SelectAcademicHistory = ({ data, historySelected, setHistorySelected }: IS
       {
         data.map((specs, index) => {
           return (
-            <div className="flex items-center bg-indigo-sesqui h-fit p-5 rounded-lg">
-              <Checkbox color="blue" checked={index === historySelected} onClick={() => setHistorySelected(index)} />
+            <div key={index} className="flex items-center bg-indigo-sesqui h-fit p-5 rounded-lg">
+              <Checkbox color="blue" checked={index === historySelected} onChange={() => setHistorySelected(index)} />
               <p className="text-white-sesqui text-3xl">{specs.carrer}</p>
             </div>
           )

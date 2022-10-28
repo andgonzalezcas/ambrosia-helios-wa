@@ -12,15 +12,15 @@ const Table = ({ titles, content }: ITable) => {
             <table className="min-w-full">
               <thead className="border-b">
                 <tr className="">
-                  {titles.map(title => <th scope="col" className="text-sm font-medium text-white-sesqui px-6 py-4 text-left">{title}</th>)}
+                  {titles.map((title, index) => <th key={index} scope="col" className="text-sm font-medium text-white-sesqui px-6 py-4 text-left">{title}</th>)}
                 </tr>
               </thead>
               <tbody>
                 {
-                  content.map((row) => {
+                  content.map((row, index) => {
                     return (
-                      <tr>
-                        {row.map((data: string) => <td className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{data}</td>)}
+                      <tr key={index}>
+                        {row.map((data: string, index) => <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{data}</td>)}
                       </tr>
                     )
                   })

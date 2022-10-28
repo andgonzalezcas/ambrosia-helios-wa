@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@material-tailwind/react": "^1.2.4",
     "framer-motion": "^7.6.1",
     "graphql": "^14.7.0",

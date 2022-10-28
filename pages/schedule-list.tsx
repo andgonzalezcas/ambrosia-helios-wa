@@ -35,33 +35,34 @@ const dataTable = {
   ]
 }
 
-const tabs: any = [
-  {
-    icon: '📖',
-    label: 'Asignaturas disponibles para cursar',
-    content: (
-      <Table titles={dataTable.titles} content={dataTable.content} />
-    )
-  },
-  {
-    icon: '🌐',
-    label: 'Buscador de asignaturas',
-    content: (
-      <div className="bg-white w-full p-10 grid grid-cols-2 gap-2">
-        <Select variant="outlined" label="Metodo de busqueda" color="amber">
-          <Option>Codigo de asignatura</Option>
-          <Option>Nombre de asignatura</Option>
-          <Option>Tipologia de asignatura</Option>
-        </Select>
-        <div className="w-full">
-          <Input label="Username" />
-        </div>
-      </div>
-    )
-  }
-]
 
 const ScheduleList = () => {
+  const tabs: any = [
+    {
+      icon: '📖',
+      label: 'Asignaturas disponibles para cursar',
+      content: (
+        <Table titles={dataTable.titles} content={dataTable.content} />
+      )
+    },
+    {
+      icon: '🌐',
+      label: 'Buscador de asignaturas',
+      content: (
+        <div className="bg-white w-full p-10 grid grid-cols-2 gap-2">
+          <Select variant="outlined" label="Metodo de busqueda" color="amber">
+            <Option value="0" onSelect={() => console.log(1)}>Codigo de asignatura</Option>
+            <Option value="1">Nombre de asignatura</Option>
+            <Option value="2">Tipologia de asignatura</Option>
+          </Select>
+          <div className="w-full">
+            <Input label="Username" />
+          </div>
+        </div>
+      )
+    }
+  ]
+
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
@@ -76,7 +77,7 @@ const ScheduleList = () => {
             >
               {`${item.icon} ${item.label}`}
               {item === selectedTab ? (
-                <motion.div className="absolute w-full md:w-[70%] h-[1px] bg-dark-sesqui -bottom-1" layoutId="underline" />
+                <motion.div className="absolute w-full md:w-[70%] h-[1px] bg-[#CDDC39] -bottom-1" layoutId="underline" />
               ) : null}
             </li>
           ))}
