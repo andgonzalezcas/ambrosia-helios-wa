@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Option } from "@material-tailwind/react";
+import { Select, Option, Input } from "@material-tailwind/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Table from "../components/Table";
 
@@ -40,14 +40,23 @@ const tabs: any = [
     icon: '📖',
     label: 'Asignaturas disponibles para cursar',
     content: (
-      <Table titles={dataTable.titles} content={dataTable.content}/>
+      <Table titles={dataTable.titles} content={dataTable.content} />
     )
   },
   {
     icon: '🌐',
     label: 'Buscador de asignaturas',
     content: (
-      <p>Soy el content, pero del otro lado</p>
+      <div className="bg-white w-full p-10 grid grid-cols-2 gap-2">
+        <Select variant="outlined" label="Metodo de busqueda" color="amber">
+          <Option>Codigo de asignatura</Option>
+          <Option>Nombre de asignatura</Option>
+          <Option>Tipologia de asignatura</Option>
+        </Select>
+        <div className="w-full">
+          <Input label="Username" />
+        </div>
+      </div>
     )
   }
 ]
@@ -67,13 +76,13 @@ const ScheduleList = () => {
             >
               {`${item.icon} ${item.label}`}
               {item === selectedTab ? (
-                <motion.div className="absolute w-full md:w-[70%] h-1 bg-cyan-sesqui -bottom-1" layoutId="underline" />
+                <motion.div className="absolute w-full md:w-[70%] h-[1px] bg-dark-sesqui -bottom-1" layoutId="underline" />
               ) : null}
             </li>
           ))}
         </ul>
       </nav>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center w-full">
         <AnimatePresence exitBeforeEnter>
           <motion.div
             key={selectedTab ? selectedTab.label : "empty"}
@@ -81,6 +90,7 @@ const ScheduleList = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            className={'w-full md:w-[70%]'}
           >
             {selectedTab ? selectedTab.content : "😋"}
           </motion.div>
