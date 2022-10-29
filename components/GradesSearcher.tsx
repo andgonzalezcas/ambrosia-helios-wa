@@ -15,28 +15,6 @@ const GradesSearcher = () => {
     const { data } = await client.query({ query: GET_COURSES });
     //setInfo(data)
     console.log(data)
-
-    /* var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append('Access-Control-Allow-Origin', '*');
-    myHeaders.append('Access-Control-Allow-Credentials', 'true')
-
-    var graphql = JSON.stringify({
-      query: "query {\n    Courses(code: \"12345\", name: \"test_course_name\", component: \"test_course_component\"){\n        code\n    }\n}",
-      variables: {}
-    })
-    var requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: graphql,
-      redirect: 'follow',
-      mode: 'no-cors'
-    };
-
-    fetch("https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error)); */
   }
 
   useEffect(() => {
