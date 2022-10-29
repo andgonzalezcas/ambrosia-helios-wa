@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphQl/apollo-client.Ts", "graphQl/apollo-client.Ts"],
   "exclude": ["node_modules"]
 }

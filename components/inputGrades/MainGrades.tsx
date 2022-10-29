@@ -7,9 +7,13 @@ const MainGrades = () => {
 
   const getData = async () => {
     const { data } = await client.query({ query: GET_CHARACTERS });
-
     setInfo(data)
+    console.log(data)
   }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   if (!info) return <p>nothing</p>
 

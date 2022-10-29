@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Button, Card, CardBody, CardFooter, CardHeader, Checkbox, Input, Typography } from "@material-tailwind/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@material-tailwind/react";
 
 interface Ilogin {
   setIsLoged: Function

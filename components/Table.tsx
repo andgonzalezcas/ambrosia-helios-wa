@@ -35,11 +35,3 @@ const Table = ({ titles, content }: ITable) => {
 }
 
 export default Table
-/*     <table className="table-auto w-full overflow-x-scroll">
-      <thead>
-        
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table> */
