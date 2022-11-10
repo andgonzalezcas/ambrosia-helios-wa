@@ -44,12 +44,12 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           <ItemOnNavbar href='/'>
             <RiBook3Fill className="w-6 h-6" />
           </ItemOnNavbar>
-          <ItemOnNavbar className={'md:hidden'} href='/'>
+          <ItemOnNavbar className={'md:hidden'} href='/profile'>
             <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
           </ItemOnNavbar>
         </div>
         <div className="justify-center hidden md:flex">
-          <Link href={'/'}>
+          <Link href={'/profile'}>
             <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
           </Link>
         </div>

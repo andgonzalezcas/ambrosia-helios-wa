@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
 import { Select, Option, Input, Button } from "@material-tailwind/react"
-import client from "../graphQl/apollo-client"
-import { GET_CHARACTERS, GET_COURSES } from "../graphQl/Queries"
-import { gql } from "@apollo/client"
 
 const GradesSearcher = () => {
   const [inputOption, setInputOption] = useState(0)
@@ -12,7 +9,29 @@ const GradesSearcher = () => {
   const [info, setInfo] = useState(undefined)
 
   const getData = async () => {
-    const { data } = await client.query({ query: GET_COURSES });
+    const data = await fetch(
+      'https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+        },
+        body: JSON.stringify({
+          operationName: 'Courses',
+          variables: {
+            from: 0,
+            size: 1,
+            sort: 'PriceAsc',
+            auctionType: 'Sale',
+            criteria: {},
+          },
+          query: 'query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n',
+        }),
+      }
+    )
     //setInfo(data)
     console.log(data)
   }

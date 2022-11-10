@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Login setIsLoged={setISLoged} />
             ) : (
               <Layout>
-                <Component {...pageProps} />
+                <Component {...pageProps} setIsLoged={setISLoged}/>
               </Layout>
 
             )
