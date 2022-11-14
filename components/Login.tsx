@@ -5,7 +5,12 @@ interface Ilogin {
   setIsLoged: Function
 }
 
+
 const Login = ({ setIsLoged }: Ilogin) => {
+  const handleClick = async (username: string, password: string) => {
+    setIsLoged(true)
+  }
+
   return (
     <div className="w-creen h- h-screen min-h-screen py-6 flex flex-col justify-center sm:py-12 bg-login-background bg-cover">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -30,7 +35,7 @@ const Login = ({ setIsLoged }: Ilogin) => {
               variant="gradient"
               color="lime"
               fullWidth
-              onClick={() => {setIsLoged(true)}}
+              onClick={() => {handleClick('username', 'password')}}
             >
               Sign In
             </Button>

@@ -1,14 +1,31 @@
-import client from "../../graphQl/apollo-client";
-import { GET_CHARACTERS } from '../../graphQl/Queries';
 import { useEffect, useState } from "react";
 
 const MainGrades = () => {
   const [info, setInfo] = useState(undefined)
 
   const getData = async () => {
-    const { data } = await client.query({ query: GET_CHARACTERS });
-    setInfo(data)
-    console.log(data)
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let graphql = JSON.stringify({
+      variables: {
+        userCode: 67890
+      },
+      query: "query {\n    UserCourses($userCode: Int!){\n courseCode\n name\n}\n}",
+    })
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql
+    };
+
+    fetch("https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log('error', error));
   }
 
   useEffect(() => {

@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Select, Option, Input, Button } from "@material-tailwind/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Table from "../components/Table";
 import GradesSearcher from "../components/GradesSearcher";
 
@@ -51,7 +50,36 @@ const tabs: any = [
 
 const ScheduleList = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
-  
+
+  const pendingGradesFetch = async () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    /* let graphql = JSON.stringify({
+      query: "query{\n    PendingCourses(userCode: \"12345\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n",
+      variables: {}
+    }) */
+
+    var graphql = JSON.stringify({
+      query: "query {\n    UserCourses(userCode: \"67890\"){\n        courseCode\n        name   \n        professor{\n            code\n            username\n            name\n        }\n        schedules{\n            day\n            building\n            classroom\n            timeOfStart\n            timeOfEnd\n        }            \n    }\n}",
+      variables: {}
+    })
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+    };
+
+    fetch("https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+  useEffect(() => {
+    pendingGradesFetch()
+  })
 
   return (
     <div className="w-full h-full">

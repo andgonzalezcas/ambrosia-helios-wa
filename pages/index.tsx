@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import SmallBox from '../components/SmallBox'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({username, userRol}: any) => {
   return (
     <>
       <Head>
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-3 justify-items-center content-center max-w-4xl w-full h-full p-5'>
-        <h1 className='md:col-span-2 text-6xl font-bold'>!Hola Paul!</h1>
+        <h1 className='md:col-span-2 text-6xl font-bold'>!Buen dia {userRol} {username}!</h1>
         <SmallBox title='Daily message' className='bg-blue-sesqui justify-center'>
           <p>Ten un hermoso dia 😙</p>
         </SmallBox>

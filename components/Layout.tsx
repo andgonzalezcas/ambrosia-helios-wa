@@ -23,7 +23,10 @@ const ItemOnNavbar = ({ children, className = '', href }: IItemOnNavbar) => {
   )
 }
 
-const Layout = ({ children }: { children: JSX.Element }) => {
+const Layout = ({ children, userRol }: {
+  children: JSX.Element
+  userRol: string
+}) => {
 
   return (
     <div className="w-screen h-screen flex flex-col-reverse md:flex-row ">

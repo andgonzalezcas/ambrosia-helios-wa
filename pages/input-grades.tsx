@@ -1,7 +1,6 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
-//import { images } from "./image-data";
 import { useState } from "react"
 
 //components
@@ -14,12 +13,8 @@ import { Button } from "@material-tailwind/react";
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
 
 const data = [
-  {
-    carrer: 'Ingenieria de sistemas y computacion'
-  },
-  {
-    carrer: 'Diseño grafico'
-  }
+  { carrer: 'Ingenieria de sistemas y computacion' },
+  { carrer: 'Diseño grafico' }
 ]
 
 const InputGrades = () => {
@@ -29,7 +24,7 @@ const InputGrades = () => {
 
   //page content array
   const pages = [
-    <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected}/>,
+    <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} />,
     <MainGrades />,
     <SecundaryGrades />
   ]
