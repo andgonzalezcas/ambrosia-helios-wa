@@ -1,7 +1,5 @@
 import { Button } from "@material-tailwind/react"
 
-
-
 const Profile = ({ setIsLoged }: any) => {
   return (
     <div className="flex justify-center items-center">

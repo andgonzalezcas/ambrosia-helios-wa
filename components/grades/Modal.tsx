@@ -53,9 +53,15 @@ const Modal = ({ setOpenModal, codeToModal }: IModal) => {
   return (
     <div
       className="absolute flex w-screen h-screen z-10 bg-dark-sesqui bg-opacity-50 justify-center items-center"
-      onClick={() => { setOpenModal(false) }}
     >
-      <section className="rounded-3xl shadow-2xl bg-dark-sesqui">
+      <div
+        className="absolute w-full h-full z-10"
+        onClick={() => { setOpenModal(false) }}
+      >
+      </div>
+      <section
+        className="rounded-3xl shadow-2xl bg-dark-sesqui z-20"
+      >
         {
           isLoading
             ? (
