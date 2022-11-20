@@ -17,7 +17,12 @@ const data = [
   { carrer: 'Diseño grafico' }
 ]
 
-const InputGrades = () => {
+interface IInputGrades {
+  setOpenModal: Function
+  setCodeToModal: Function
+}
+
+const InputGrades = ({ setOpenModal, setCodeToModal }: IInputGrades) => {
   const [available, setAvailable] = useState<Boolean>(true)
   const [[page, direction], setPage] = useState([0, 0]);
   const [historySelected, setHistorySelected] = useState(0)
@@ -26,7 +31,7 @@ const InputGrades = () => {
   const pages = [
     <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} key={1} />,
     <MainGrades key={2} />,
-    <SecundaryGrades key={3} />
+    <SecundaryGrades key={3} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
   ]
 
   //Variants from the animation div
