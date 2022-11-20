@@ -38,14 +38,14 @@ const Layout = ({ children, userRol }: {
           <ItemOnNavbar href='/schedule-list'>
             <RiCheckboxMultipleLine className={'w-6 h-6'} />
           </ItemOnNavbar>
-          <ItemOnNavbar className="" href='/input-grades'>
+          <ItemOnNavbar className="" href='/input-courses'>
             <RiBook2Fill className={'w-6 h-6'} />
           </ItemOnNavbar>
           <ItemOnNavbar href='/'>
             <RiHome3Fill className="w-6 h-6" />
           </ItemOnNavbar>
           {
-            userRol === 'Docente'
+            userRol === 'Estudiante'
               ? (<ItemOnNavbar href='/'>
                 <RiBook3Fill className="w-6 h-6" />
               </ItemOnNavbar>)

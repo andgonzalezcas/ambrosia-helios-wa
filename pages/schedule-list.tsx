@@ -3,35 +3,6 @@ import { motion } from "framer-motion";
 import GradesSearcher from "../components/GradesSearcher";
 import TableGrades from "../components/grades/Table";
 
-const dataTable = {
-  content: [
-    {
-      name: 'Introducción a las ciencias de la computación y a la programación (202654)',
-      type: 'Diciplinar Optativa',
-      credits: 3,
-      quota: 24
-    },
-    {
-      name: 'Computación paralela y distribuida (2016722)',
-      type: 'Diciplinar Optativa',
-      credits: 3,
-      quota: 2
-    },
-    {
-      name: 'Taller de proyector interdiciplinarios (2024045)',
-      type: 'Diciplinar Optativa',
-      credits: 4,
-      quota: 6
-    },
-    {
-      name: 'Computación visual (2025960)',
-      type: 'Diciplinar Optativa',
-      credits: 3,
-      quota: 5
-    }
-  ]
-}
-
 const tabs: any = [
   {
     id: 1,
@@ -47,30 +18,28 @@ const tabs: any = [
 
 const ScheduleList = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const [dataTable, setDataTable] = useState([])
 
   const pendingGradesFetch = async () => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Access-Control-Allow-Origin', '*');
+    myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
-    /* let graphql = JSON.stringify({
+    var graphqlPendignCourses = JSON.stringify({
       query: "query{\n    PendingCourses(userCode: \"12345\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n",
-      variables: {}
-    }) */
-
-    var graphql = JSON.stringify({
-      query: "query {\n    UserCourses(userCode: \"67890\"){\n        courseCode\n        name   \n        professor{\n            code\n            username\n            name\n        }\n        schedules{\n            day\n            building\n            classroom\n            timeOfStart\n            timeOfEnd\n        }            \n    }\n}",
       variables: {}
     })
 
     let requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: graphql,
+      body: graphqlPendignCourses,
     };
 
-    fetch("https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
+    fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
+      .then(response => response.json())
+      .then(result => console.log(setDataTable(result.data.PendingCourses)))
       .catch(error => console.log('error', error));
   }
 
@@ -104,7 +73,7 @@ const ScheduleList = () => {
           {
             selectedTab.id === 1
               ? (
-                <TableGrades content={dataTable.content} />
+                <TableGrades content={dataTable} />
               ) : (
                 <div className="bg-dark-sesqui w-full p-10 opacity-80 rounded-lg">
                   <GradesSearcher />

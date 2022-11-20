@@ -10,7 +10,7 @@ const GradesSearcher = () => {
 
   const getData = async () => {
     const data = await fetch(
-      'https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql',
+      process.env.GRAPHQL_URL + '/graphql',
       {
         method: 'POST',
 
@@ -27,6 +27,9 @@ const GradesSearcher = () => {
             sort: 'PriceAsc',
             auctionType: 'Sale',
             criteria: {},
+          },
+          fetchOptions: {
+            mode: 'no-cors'
           },
           query: 'query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n',
         }),
