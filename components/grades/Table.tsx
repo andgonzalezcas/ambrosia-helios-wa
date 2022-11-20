@@ -1,9 +1,12 @@
 interface ITable {
-  content: any
+  content: any,
+  setOpenModal: Function
+  setCodeToModal: Function
 }
 
-const TableGrades = ({ content }: ITable) => {
+const TableGrades = ({ content, setOpenModal, setCodeToModal }: ITable) => {
   const titles: string[] = ["ASIGNATURA", "TIPOLOGÍA"]
+
   return (
     <div className="flex flex-col bg-dark-sesqui rounded-lg bg-opacity-80 overflow-x-auto md:overflow-x-hidden w-full">
       <div className="sm:-mx-6 lg:-mx-8">
@@ -20,7 +23,13 @@ const TableGrades = ({ content }: ITable) => {
                   content.map((row: any, index: number) => {
                     return (
                       <tr key={index}>
-                        <td className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{`${row.name} (${row.code})`}</td>
+                        <td
+                          className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap hover:border-b-2 hover:border-white-sesqui cursor-pointer"
+                          onClick={() => {
+                            setCodeToModal(row.code)
+                            setOpenModal(true)
+                          }}
+                        >{`${row.name} (${row.code})`}</td>
                         <td className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.component}</td>
                       </tr>
                     )

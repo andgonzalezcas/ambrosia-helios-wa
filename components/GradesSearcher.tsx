@@ -1,47 +1,62 @@
 import { useEffect, useState } from "react"
 import { Select, Option, Input, Button } from "@material-tailwind/react"
 
-const GradesSearcher = () => {
+interface IGradesSearcher {
+  setDataTable: Function
+  setIsLoading: Function
+}
+
+const GradesSearcher = ({ setDataTable, setIsLoading }: IGradesSearcher) => {
   const [inputOption, setInputOption] = useState(0)
-  const [tipoOption, setTipoOption] = useState(0)
+  const [searchOption, setSearchOption] = useState<any>()
   const labelOptions = ["Elija un metodo de busqueda", "Numero sin caracteres", "Nombre"]
 
-  const [info, setInfo] = useState(undefined)
-
-  const getData = async () => {
-    const data = await fetch(
-      process.env.GRAPHQL_URL + '/graphql',
-      {
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'true',
-        },
-        body: JSON.stringify({
-          operationName: 'Courses',
-          variables: {
-            from: 0,
-            size: 1,
-            sort: 'PriceAsc',
-            auctionType: 'Sale',
-            criteria: {},
-          },
-          fetchOptions: {
-            mode: 'no-cors'
-          },
-          query: 'query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n',
-        }),
-      }
-    )
-    //setInfo(data)
-    console.log(data)
+  const handleFetch = () => {
+    let optionString = ''
+    if (inputOption === 1) {
+      optionString = 'code:\"' + searchOption + '\", name: \"\", component: \"\"'
+    } else if (inputOption === 2) {
+      optionString = 'code:\"\", name: \"' + searchOption + '\", component: \"\"'
+    } else {
+      optionString = 'code:\"\", name: \"\", component: \"' + searchOption + '\"'
+    } return optionString
   }
 
-  useEffect(() => {
-    getData()
-  }, [])
+  const getCoursesFetch = async () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Access-Control-Allow-Origin', '*');
+    myHeaders.append('Access-Control-Allow-Credentials', 'true')
+
+    var graphqlGetCourses = JSON.stringify({
+      query: `query {\n    Courses(${handleFetch()}){\n        code\n        name\n        component\n}\n}`,
+    })
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphqlGetCourses,
+      fetchOptions: {
+        mode: 'no-cors'
+      }
+    };
+
+    setIsLoading(true)
+
+    fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
+      .then(response => response.json())
+      .then(result => { setDataTable(result.data.Courses) })
+      .then(() => setIsLoading(false))
+      .catch(error => console.log('error', error));
+  }
+
+  const handleClick = () => {
+    getCoursesFetch()
+  }
+
+  const handleChange = (e: any) => {
+    setSearchOption(e.target.value)
+  }
 
   return (
     <div className="grid grid-cols-2 gap-2 w-full px-12 py-3 z-10 rounded-t-lg">
@@ -60,19 +75,27 @@ const GradesSearcher = () => {
                 color="amber"
                 style={{ color: 'white' }}
                 type={inputOption === 1 ? 'number' : 'text'}
+                onChange={(e) => { handleChange(e) }}
                 required
               />
 
             ) : (
               <Select variant="outlined" label="Metodo de busqueda" color="amber" style={{ color: 'white' }}>
-                <Option onClick={() => setTipoOption(1)}>Libre eleccion</Option>
-                <Option onClick={() => setTipoOption(2)}>Fundamentacion</Option>
-                <Option onClick={() => setTipoOption(3)}>Disciplinar</Option>
+                <Option onClick={() => setSearchOption('Libre Eleccion')}>Libre eleccion</Option>
+                <Option onClick={() => setSearchOption('Fundamentacion')}>Fundamentacion</Option>
+                <Option onClick={() => setSearchOption('Disciplinar')}>Disciplinar</Option>
               </Select>
             )
         }
       </div>
-      <Button className="col-span-2" color="amber" disabled={inputOption === 0 ? true : false}>Consultar</Button>
+      <Button
+        className="col-span-2"
+        color="amber"
+        disabled={inputOption === 0 ? true : false}
+        onClick={() => { handleClick() }}
+      >
+        Consultar
+      </Button>
     </div>
   )
 }

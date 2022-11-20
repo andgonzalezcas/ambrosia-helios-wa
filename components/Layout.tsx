@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { SiAiqfome } from 'react-icons/si'
@@ -28,8 +27,9 @@ const Layout = ({ children, userRol }: {
   userRol: 'Estudiante' | 'Docente'
 }) => {
 
+
   return (
-    <div className="w-screen h-screen flex flex-col-reverse md:flex-row ">
+    <div className="w-screen h-screen flex flex-col-reverse md:flex-row relative">
       <div className="w-full md:w-16 h-[10vh] md:h-[90vh] bg-dark-sesqui text-white rounded-t-lg md:rounded-xl md:ml-2 md:my-auto bg-opacity-90 flex flex-row md:flex-col md:justify-between items-center py-4 bottom-0">
         <div className="w-full flex flex-row md:flex-col items-center md:gap-3">
           {/* <Image src={'/images/logo.svg'} width={50} height={50} /> */}
