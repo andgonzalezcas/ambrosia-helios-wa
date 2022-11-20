@@ -24,9 +24,9 @@ const InputGrades = () => {
 
   //page content array
   const pages = [
-    <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} />,
-    <MainGrades />,
-    <SecundaryGrades />
+    <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} key={1} />,
+    <MainGrades key={2} />,
+    <SecundaryGrades key={3} />
   ]
 
   //Variants from the animation div

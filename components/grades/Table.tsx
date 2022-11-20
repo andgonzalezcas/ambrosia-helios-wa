@@ -1,9 +1,9 @@
 interface ITable {
-  titles: string[]
-  content: string[][]
+  content: any
 }
 
-const Table = ({ titles, content }: ITable) => {
+const TableGrades = ({ content }: ITable) => {
+  const titles: string[] = ["ASIGNATURA", "TIPOLOGÍA", 'CRÉDITOS', 'CUPOS DISPONIBLES']
   return (
     <div className="flex flex-col bg-dark-sesqui rounded-lg bg-opacity-80 overflow-x-auto md:overflow-x-hidden w-full">
       <div className="sm:-mx-6 lg:-mx-8">
@@ -17,10 +17,13 @@ const Table = ({ titles, content }: ITable) => {
               </thead>
               <tbody>
                 {
-                  content.map((row, index) => {
+                  content.map((row: any, index: number) => {
                     return (
                       <tr key={index}>
-                        {row.map((data: string, index) => <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{data}</td>)}
+                        <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.name}</td>
+                        <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.type}</td>
+                        <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.credits}</td>
+                        <td key={index} className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.quota}</td>
                       </tr>
                     )
                   })
@@ -34,4 +37,4 @@ const Table = ({ titles, content }: ITable) => {
   )
 }
 
-export default Table
+export default TableGrades

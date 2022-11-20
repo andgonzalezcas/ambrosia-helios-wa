@@ -25,7 +25,7 @@ const ItemOnNavbar = ({ children, className = '', href }: IItemOnNavbar) => {
 
 const Layout = ({ children, userRol }: {
   children: JSX.Element
-  userRol: string
+  userRol: 'Estudiante' | 'Profesor'
 }) => {
 
   return (
@@ -44,9 +44,13 @@ const Layout = ({ children, userRol }: {
           <ItemOnNavbar href='/'>
             <RiHome3Fill className="w-6 h-6" />
           </ItemOnNavbar>
-          <ItemOnNavbar href='/'>
-            <RiBook3Fill className="w-6 h-6" />
-          </ItemOnNavbar>
+          {
+            userRol === 'Profesor'
+              ? (<ItemOnNavbar href='/'>
+                <RiBook3Fill className="w-6 h-6" />
+              </ItemOnNavbar>)
+              : (<></>)
+          }
           <ItemOnNavbar className={'md:hidden'} href='/profile'>
             <FaUserAlt className={'w-6 h-6 cursor-pointer'} />
           </ItemOnNavbar>

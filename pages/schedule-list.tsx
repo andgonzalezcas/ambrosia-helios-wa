@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Table from "../components/Table";
 import GradesSearcher from "../components/GradesSearcher";
+import TableGrades from "../components/grades/Table";
 
 const dataTable = {
-  titles: [
-    "ASIGNATURA", "TIPOLOGÍA", 'CRÉDITOS', 'CUPOS DISPONIBLES'
-  ],
   content: [
-    [
-      'Introducción a las ciencias de la computación y a la programación (202654)',
-      'Diciplinar Optativa',
-      '3',
-      '24'
-    ],
-    [
-      'Computación paralela y distribuida (2016722)',
-      'Disciplinar Obligatoria',
-      '3',
-      '12'
-    ],
-    [
-      'Taller de proyector interdiciplinarios (2024045)',
-      'Disciplinar Obligatoria',
-      '4',
-      '0'
-    ],
-    [
-      'Computación visual (2025960)',
-      'Disciplinar Obligatoria',
-      '3',
-      '5'
-    ]
+    {
+      name: 'Introducción a las ciencias de la computación y a la programación (202654)',
+      type: 'Diciplinar Optativa',
+      credits: 3,
+      quota: 24
+    },
+    {
+      name: 'Computación paralela y distribuida (2016722)',
+      type: 'Diciplinar Optativa',
+      credits: 3,
+      quota: 2
+    },
+    {
+      name: 'Taller de proyector interdiciplinarios (2024045)',
+      type: 'Diciplinar Optativa',
+      credits: 4,
+      quota: 6
+    },
+    {
+      name: 'Computación visual (2025960)',
+      type: 'Diciplinar Optativa',
+      credits: 3,
+      quota: 5
+    }
   ]
 }
 
@@ -107,7 +104,7 @@ const ScheduleList = () => {
           {
             selectedTab.id === 1
               ? (
-                <Table titles={dataTable.titles} content={dataTable.content} />
+                <TableGrades content={dataTable.content} />
               ) : (
                 <div className="bg-dark-sesqui w-full p-10 opacity-80 rounded-lg">
                   <GradesSearcher />

@@ -6,26 +6,28 @@ const MainGrades = () => {
   const getData = async () => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Access-Control-Allow-Origin', '*');
+    myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
     let graphql = JSON.stringify({
-      variables: {
-        userCode: 67890
-      },
-      query: "query {\n    UserCourses($userCode: Int!){\n courseCode\n name\n}\n}",
+      query: `query{\n    PendingCourses(userCode: \"${67890}\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n`,
     })
 
     let requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: graphql
+      body: graphql,
+      fetchOptions: {
+        mode: 'no-cors'
+      }
     };
 
-    fetch("https://ambrosia-cronos-ag-4axjffbidq-uc.a.run.app/graphql", requestOptions)
+    let url = process.env.GRAPHQL_URL ? process.env.GRAPHQL_URL : ''
+
+      const res = await fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
       .then(response => response.json())
-      .then(result => {
-        console.log(result)
-      })
-      .catch(error => console.log('error', error));
+      .then(result => { setInfo(result.data.PendingCourses) })
+      .catch(error => console.log('error:', error));
   }
 
   useEffect(() => {

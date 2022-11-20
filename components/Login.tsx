@@ -20,7 +20,7 @@ const Login = ({ setIsLoged }: Ilogin) => {
             className="mb-4 grid h-44 place-items-center bg-white-sesqui w-[70%] mx-auto"
           >
             <div className="w-full flex justify-center">
-              <Image src={'/images/Logotipo_de_la_Universidad_Nacional_de_Colombia.png'} width={150} height={150} />
+              <Image src={'/images/Logotipo_de_la_Universidad_Nacional_de_Colombia.png'} width={150} height={150} alt={'Unal logo'} />
             </div>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
@@ -35,7 +35,7 @@ const Login = ({ setIsLoged }: Ilogin) => {
               variant="gradient"
               color="lime"
               fullWidth
-              onClick={() => {handleClick('username', 'password')}}
+              onClick={() => { handleClick('username', 'password') }}
             >
               Sign In
             </Button>
