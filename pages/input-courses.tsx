@@ -30,7 +30,7 @@ const InputGrades = ({ setOpenModal, setCodeToModal }: IInputGrades) => {
   //page content array
   const pages = [
     <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} key={1} />,
-    <MainGrades key={2} />,
+    <MainGrades key={2} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />,
     <SecundaryGrades key={3} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
   ]
 

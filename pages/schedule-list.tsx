@@ -6,9 +6,10 @@ import TableGrades from "../components/grades/Table";
 interface IScheduleList {
   setOpenModal: Function
   setCodeToModal: Function
+  userCode: number
 }
 
-const ScheduleList = ({ setOpenModal, setCodeToModal }: IScheduleList) => {
+const ScheduleList = ({ setOpenModal, setCodeToModal, userCode }: IScheduleList) => {
   const tabs = [
     {
       id: 1,
@@ -32,7 +33,7 @@ const ScheduleList = ({ setOpenModal, setCodeToModal }: IScheduleList) => {
     myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
     var graphqlPendignCourses = JSON.stringify({
-      query: "query{\n    PendingCourses(userCode: \"12345\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n",
+      query: `query{\n    PendingCourses(userCode: \"${userCode}\", academicHistoryCode: \"\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n`,
       variables: {}
     })
 

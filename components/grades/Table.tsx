@@ -2,6 +2,7 @@ interface ITable {
   content: any,
   setOpenModal: Function
   setCodeToModal: Function
+  
 }
 
 const TableGrades = ({ content, setOpenModal, setCodeToModal }: ITable) => {

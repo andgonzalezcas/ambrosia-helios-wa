@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [isLoged, setISLoged] = useState(false)
   const [username, setUsername] = useState('Paul')
   const [userRol, setUserRol] = useState<'Estudiante' | 'Docente'>('Estudiante')
+  const [userCode, setUserCode] = useState<number>(12345)
   const [openModal, setOpenModal] = useState(false)
   const [codeToModal, setCodeToModal] = useState(0)
 
@@ -32,6 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   setIsLoged={setISLoged}
                   username={username}
                   userRol={userRol}
+                  userCode={userCode}
                   setOpenModal={setOpenModal}
                   setCodeToModal={setCodeToModal}
                 />

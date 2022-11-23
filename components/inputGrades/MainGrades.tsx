@@ -1,43 +1,56 @@
 import { useEffect, useState } from "react";
+import TableGrades from "../grades/Table";
 
-const MainGrades = () => {
-  const [info, setInfo] = useState(undefined)
+interface IMainGrades {
+  setOpenModal: Function
+  setCodeToModal: Function
+}
 
-  const getData = async () => {
+const MainGrades = ({ setOpenModal, setCodeToModal }: IMainGrades) => {
+  const [dataTable, setDataTable] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const pendingCoursesFetch = async () => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Access-Control-Allow-Origin', '*');
     myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
-    let graphql = JSON.stringify({
-      query: `query{\n    PendingCourses(userCode: \"${67890}\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n`,
+    var graphqlPendignCourses = JSON.stringify({
+      query: "query{\n    PendingCourses(userCode: \"12345\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n",
+      variables: {}
     })
 
     let requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: graphql,
+      body: graphqlPendignCourses,
       fetchOptions: {
         mode: 'no-cors'
       }
     };
 
-    let url = process.env.GRAPHQL_URL ? process.env.GRAPHQL_URL : ''
+    setIsLoading(true)
 
-      const res = await fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
+    fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
       .then(response => response.json())
-      .then(result => { setInfo(result.data.PendingCourses) })
-      .catch(error => console.log('error:', error));
+      .then(result => setDataTable(result.data.PendingCourses))
+      .then(() => setIsLoading(false))
+      .catch(error => console.log('error', error));
   }
 
   useEffect(() => {
-    getData()
+    pendingCoursesFetch()
   }, [])
 
-  if (!info) return <p>nothing</p>
-
   return (
-    <div>charged...</div>
+    <>
+      {
+        isLoading
+          ? <p className="text-sm font-medium text-white-sesqui px-6 py-4 text-left">Loading ...</p>
+          : <TableGrades content={dataTable} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
+      }
+    </>
   )
 }
 

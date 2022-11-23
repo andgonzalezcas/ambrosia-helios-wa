@@ -28,9 +28,9 @@ const Home: NextPage = ({username, userRol}: any) => {
             <p className='font-bold'>Marzo</p>
           </div>
         </SmallBox>
-        <SmallBox title='Horario' className='md:col-span-2 bg-purple-sesqui'>
+        {/* <SmallBox title='Horario' className='md:col-span-2 bg-purple-sesqui'>
           <p>box 3 content</p>
-        </SmallBox>
+        </SmallBox> */}
       </div>
     </>
   )
