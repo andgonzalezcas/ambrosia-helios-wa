@@ -11,6 +11,7 @@ import { Button } from "@material-tailwind/react";
 
 //icons
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
+import FinalSummary from "../components/inputCourses/FinalSummary";
 
 interface IInputGrades {
   userCode: string
@@ -23,11 +24,12 @@ const InputGrades = ({ userCode }: IInputGrades) => {
   const [dataHistoryAcademic, setDataHistoryAcademic] = useState({})
   const [selectedCourses, setSelectedCourses] = useState([])
 
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append('Access-Control-Allow-Origin', '*');
+  myHeaders.append('Access-Control-Allow-Credentials', 'true')
+
   const getAcademicHistory = async () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append('Access-Control-Allow-Origin', '*');
-    myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
     let graphql = JSON.stringify({
       query: `query{\n    AcademicHistories(userCode: \"${userCode}\"){\n programInfo{\n            code\n            name\n        }\n   }\n}\n`,
@@ -56,6 +58,32 @@ const InputGrades = ({ userCode }: IInputGrades) => {
       .catch(error => console.log('error', error));
   }
 
+  const getCurrentCourses = () => {
+    let graphql = JSON.stringify({
+      query: `query {\n    UserCourses(userCode: \"${userCode}\"){\n courseCode\n }\n}`,
+      variables: {}
+    })
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+      fetchOptions: {
+        mode: 'no-cors'
+      }
+    };
+
+    fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        const auxArray: any = []
+        result.data.UserCourses.map((course: any) => {
+          auxArray.push(course.courseCode)
+          setSelectedCourses(auxArray)
+        })
+      })
+      .catch(error => console.log('error', error));
+  }
+
   //page content array
   const pages = [
     <SelectAcademicHistory
@@ -74,6 +102,12 @@ const InputGrades = ({ userCode }: IInputGrades) => {
       key={3}
       selectedCourses={selectedCourses}
       setSelectedCourses={setSelectedCourses}
+    />,
+    <FinalSummary
+      key={4}
+      userCode={userCode}
+      historySelected={historySelected}
+      selectedCourses={selectedCourses}
     />
   ]
 
@@ -111,6 +145,7 @@ const InputGrades = ({ userCode }: IInputGrades) => {
   };
 
   useEffect(() => {
+    getCurrentCourses()
     getAcademicHistory()
   }, [])
 

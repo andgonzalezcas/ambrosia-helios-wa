@@ -8,17 +8,21 @@ const GroupsRows = ({ groups, selectedCourses, setSelectedCourses }: any) => {
 
   useEffect(() => {
     const ids: any = []
+    groups.map((group: any, index: number) => { ids.push(group.code) })
+    setRowsIds(ids)
+  }, [groups])
+
+  useEffect(() => {
     const auxrows: any = []
     let auxArray = selectedCourses
     groups.map((group: any, index: number) => {
-      ids.push(group.code)
       auxrows.push(
         <tr key={index} className='bg-black bg-opacity-30'>
           <td>
             <Checkbox
               color="amber"
               onChange={() => {
-                ids.map((id: any) => {
+                rowsIds.map((id: any) => {
                   auxArray = selectedCourses.filter((item: any) => item != id)
                   setSelectedCourses(auxArray)
                 })
@@ -46,7 +50,6 @@ const GroupsRows = ({ groups, selectedCourses, setSelectedCourses }: any) => {
     }
 
     setRowElements(auxrows)
-    setRowsIds(ids)
   }, [groups, selectedCourses, change])
 
   return (<>{rowsElements.map(group => group)}</>)
