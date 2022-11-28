@@ -1,11 +1,11 @@
-interface ITable {
-  content: any,
-  setOpenModal: Function
-  setCodeToModal: Function
+import { Checkbox } from "@material-tailwind/react"
+
+interface ISelectTable {
+  content: any
 }
 
-const TableGrades = ({ content, setOpenModal, setCodeToModal }: ITable) => {
-  const titles: string[] = ["ASIGNATURA", "TIPOLOGÍA"]
+const SelectTable = ({ content }: ISelectTable) => {
+  const titles: string[] = ["", "ASIGNATURA", "TIPOLOGÍA", "CUPOS"]
 
   return (
     <div className="flex flex-col bg-dark-sesqui rounded-lg bg-opacity-80 overflow-x-auto md:overflow-x-hidden w-full">
@@ -23,12 +23,11 @@ const TableGrades = ({ content, setOpenModal, setCodeToModal }: ITable) => {
                   content.map((row: any, index: number) => {
                     return (
                       <tr key={index}>
+                        <td>
+                          <Checkbox color="amber" defaultChecked />
+                        </td>
                         <td
                           className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap hover:border-b-2 hover:border-white-sesqui cursor-pointer"
-                          onClick={() => {
-                            setCodeToModal(row.code)
-                            setOpenModal(true)
-                          }}
                         >{`${row.name} (${row.code})`}</td>
                         <td className="text-sm text-white-sesqui font-light px-6 py-4 whitespace-nowrap">{row.component}</td>
                       </tr>
@@ -44,4 +43,4 @@ const TableGrades = ({ content, setOpenModal, setCodeToModal }: ITable) => {
   )
 }
 
-export default TableGrades
+export default SelectTable

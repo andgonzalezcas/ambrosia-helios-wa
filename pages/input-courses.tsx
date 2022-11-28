@@ -1,37 +1,81 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 //components
-import SelectAcademicHistory from "../components/inputGrades/SelectAcademicHistory";
-import MainGrades from "../components/inputGrades/MainGrades";
-import SecundaryGrades from "../components/inputGrades/SecundaryGrades";
+import SelectAcademicHistory from "../components/inputCourses/SelectAcademicHistory";
+import MainGrades from "../components/inputCourses/MainGrades";
+import SecundaryGrades from "../components/inputCourses/SecundaryGrades";
 import { Button } from "@material-tailwind/react";
 
 //icons
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
 
-const data = [
-  { carrer: 'Ingenieria de sistemas y computacion' },
-  { carrer: 'Diseño grafico' }
-]
-
 interface IInputGrades {
   setOpenModal: Function
   setCodeToModal: Function
+  userCode: string
 }
 
-const InputGrades = ({ setOpenModal, setCodeToModal }: IInputGrades) => {
+const InputGrades = ({ setOpenModal, setCodeToModal, userCode }: IInputGrades) => {
   const [available, setAvailable] = useState<Boolean>(true)
   const [[page, direction], setPage] = useState([0, 0]);
-  const [historySelected, setHistorySelected] = useState(0)
+  const [historySelected, setHistorySelected] = useState('0')
+  const [dataHistoryAcademic, setDataHistoryAcademic] = useState({})
+
+  const getAcademicHistory = async () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Access-Control-Allow-Origin', '*');
+    myHeaders.append('Access-Control-Allow-Credentials', 'true')
+
+    let graphql = JSON.stringify({
+      query: `query{\n    AcademicHistories(userCode: \"${userCode}\"){\n programInfo{\n            code\n            name\n        }\n   }\n}\n`,
+      variables: {}
+    })
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+      fetchOptions: {
+        mode: 'no-cors'
+      }
+    };
+
+    fetch(process.env.GRAPHQL_URL + '/graphql', requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        const auxObject: any = {}
+        result.data.AcademicHistories.map((item: any) => {
+          auxObject[item.programInfo.code] = item.programInfo.name
+          setHistorySelected(item.programInfo.code)
+        })
+        return auxObject
+      })
+      .then((auxObject) => { setDataHistoryAcademic(auxObject) })
+      .catch(error => console.log('error', error));
+  }
 
   //page content array
   const pages = [
-    <SelectAcademicHistory data={data} historySelected={historySelected} setHistorySelected={setHistorySelected} key={1} />,
-    <MainGrades key={2} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />,
-    <SecundaryGrades key={3} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
+    <SelectAcademicHistory
+      data={dataHistoryAcademic}
+      historySelected={historySelected}
+      setHistorySelected={setHistorySelected}
+      key={1}
+    />,
+    <MainGrades
+      key={2}
+      setOpenModal={setOpenModal}
+      setCodeToModal={setCodeToModal}
+      userCode={userCode}
+    />,
+    <SecundaryGrades
+      key={3}
+      setOpenModal={setOpenModal}
+      setCodeToModal={setCodeToModal}
+    />
   ]
 
   //Variants from the animation div
@@ -67,6 +111,10 @@ const InputGrades = ({ setOpenModal, setCodeToModal }: IInputGrades) => {
     setPage([page + newDirection, newDirection]);
   };
 
+  useEffect(() => {
+    getAcademicHistory()
+  }, [])
+
   return (
     <div className="w-full h-full md:h-screen">
       {
@@ -90,43 +138,43 @@ const InputGrades = ({ setOpenModal, setCodeToModal }: IInputGrades) => {
                     <GrFormNextLink size={30} />
                   </Button>
               }
-              <AnimatePresence initial={false} custom={direction}>
-                <motion.div
-                  key={page}
+              <div className="w-full h-full col-span-2 md:col-span-3 row-span-4">
+                <AnimatePresence
+                  initial={false}
                   custom={direction}
-                  variants={variants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 }
-                  }}
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={1}
-                  onDragEnd={(e, { offset, velocity }) => {
-                    const swipe = swipePower(offset.x, velocity.x);
-
-                    if (swipe < -swipeConfidenceThreshold) {
-                      paginate(1);
-                    } else if (swipe > swipeConfidenceThreshold) {
-                      paginate(-1);
-                    }
-                  }}
-                  className='w-full h-full col-span-2 md:col-span-3 row-span-4 bg-dark-sesqui bg-opacity-80 rounded-lg p-4'
                 >
-                  {pages[pageIndex]}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          ) : (
-            <div className="w-full h-screen">
+                  <motion.div
+                    key={page}
+                    custom={direction}
+                    variants={variants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 }
+                    }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={1}
+                    onDragEnd={(e, { offset, velocity }) => {
+                      const swipe = swipePower(offset.x, velocity.x);
 
+                      if (swipe < -swipeConfidenceThreshold) {
+                        paginate(1);
+                      } else if (swipe > swipeConfidenceThreshold) {
+                        paginate(-1);
+                      }
+                    }}
+                    className='w-full h-full bg-dark-sesqui bg-opacity-80 rounded-lg p-4'
+                  >
+                    {pages[pageIndex]}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
-          )
+          ) : (<div className="w-full h-screen"></div>)
       }
-
     </div>
   )
 }

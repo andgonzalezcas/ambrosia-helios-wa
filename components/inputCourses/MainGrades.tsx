@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import TableGrades from "../grades/Table";
+import SelectTable from "./SelectTable";
 
 interface IMainGrades {
   setOpenModal: Function
   setCodeToModal: Function
+  userCode: string
 }
 
-const MainGrades = ({ setOpenModal, setCodeToModal }: IMainGrades) => {
+const MainGrades = ({ setOpenModal, setCodeToModal, userCode }: IMainGrades) => {
   const [dataTable, setDataTable] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -17,7 +18,7 @@ const MainGrades = ({ setOpenModal, setCodeToModal }: IMainGrades) => {
     myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
     var graphqlPendignCourses = JSON.stringify({
-      query: "query{\n    PendingCourses(userCode: \"12345\", academicHistoryCode: \"12345\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n",
+      query: `query{\n    PendingCourses(userCode: \"${userCode}\", academicHistoryCode: \"\"){\n        code\n        name\n        component\n        requirements\n    }\n}\n`,
       variables: {}
     })
 
@@ -48,7 +49,7 @@ const MainGrades = ({ setOpenModal, setCodeToModal }: IMainGrades) => {
       {
         isLoading
           ? <p className="text-sm font-medium text-white-sesqui px-6 py-4 text-left">Loading ...</p>
-          : <TableGrades content={dataTable} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
+          : <SelectTable content={dataTable} />
       }
     </>
   )
