@@ -13,16 +13,15 @@ import { Button } from "@material-tailwind/react";
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
 
 interface IInputGrades {
-  setOpenModal: Function
-  setCodeToModal: Function
   userCode: string
 }
 
-const InputGrades = ({ setOpenModal, setCodeToModal, userCode }: IInputGrades) => {
+const InputGrades = ({ userCode }: IInputGrades) => {
   const [available, setAvailable] = useState<Boolean>(true)
   const [[page, direction], setPage] = useState([0, 0]);
   const [historySelected, setHistorySelected] = useState('0')
   const [dataHistoryAcademic, setDataHistoryAcademic] = useState({})
+  const [selectedCourses, setSelectedCourses] = useState([])
 
   const getAcademicHistory = async () => {
     let myHeaders = new Headers();
@@ -67,14 +66,14 @@ const InputGrades = ({ setOpenModal, setCodeToModal, userCode }: IInputGrades) =
     />,
     <MainGrades
       key={2}
-      setOpenModal={setOpenModal}
-      setCodeToModal={setCodeToModal}
       userCode={userCode}
+      selectedCourses={selectedCourses}
+      setSelectedCourses={setSelectedCourses}
     />,
     <SecundaryGrades
       key={3}
-      setOpenModal={setOpenModal}
-      setCodeToModal={setCodeToModal}
+      selectedCourses={selectedCourses}
+      setSelectedCourses={setSelectedCourses}
     />
   ]
 
@@ -124,7 +123,7 @@ const InputGrades = ({ setOpenModal, setCodeToModal, userCode }: IInputGrades) =
               {
                 pageIndex === 0
                   ? <div></div>
-                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(-1)} color='lime'>
+                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(-1)} color='amber'>
                     <GrFormPreviousLink size={30} />
                     <p className="text-sm">pagina anterior</p>
                   </Button>
@@ -133,12 +132,12 @@ const InputGrades = ({ setOpenModal, setCodeToModal, userCode }: IInputGrades) =
               {
                 pageIndex === pages.length - 1
                   ? <div></div>
-                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(1)} color='lime'>
+                  : <Button className="flex justify-center mt-20 items-center h-14" onClick={() => paginate(1)} color='amber'>
                     <p className="text-sm">pagina siguiente</p>
                     <GrFormNextLink size={30} />
                   </Button>
               }
-              <div className="w-full h-full col-span-2 md:col-span-3 row-span-4">
+              <div className="w-full h-full col-span-2 md:col-span-3 row-span-4 overflow-y-scroll">
                 <AnimatePresence
                   initial={false}
                   custom={direction}

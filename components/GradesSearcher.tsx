@@ -29,7 +29,7 @@ const GradesSearcher = ({ setDataTable, setIsLoading }: IGradesSearcher) => {
     myHeaders.append('Access-Control-Allow-Credentials', 'true')
 
     var graphqlGetCourses = JSON.stringify({
-      query: `query {\n    Courses(${handleFetch()}){\n        code\n        name\n        component\n}\n}`,
+      query: `query {\n    Courses(${handleFetch()}){\n        code\n        name\n  groups{\n            code\n            capacity\n            taken\n            professor{\n name\n            }\n            schedules{\n                day\n                timeOfStart\n                timeOfEnd\n            }            \n        }\n}\n}`,
     })
 
     let requestOptions = {

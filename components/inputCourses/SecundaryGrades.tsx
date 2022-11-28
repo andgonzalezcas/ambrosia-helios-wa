@@ -1,15 +1,17 @@
 import { useState } from "react"
-import TableGrades from "../grades/Table"
 import GradesSearcher from "../GradesSearcher"
+import SelectTable from "./SelectTable"
 
 interface ISecundaryGrades {
-  setOpenModal: Function
-  setCodeToModal: Function
+  selectedCourses: any
+  setSelectedCourses: Function
 }
 
-const SecundaryGrades = ({ setOpenModal, setCodeToModal }: ISecundaryGrades) => {
+const SecundaryGrades = ({ selectedCourses, setSelectedCourses }: ISecundaryGrades) => {
   const [dataTable, setDataTable] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+
+  useState
 
   return (
     <>
@@ -17,7 +19,7 @@ const SecundaryGrades = ({ setOpenModal, setCodeToModal }: ISecundaryGrades) => 
       {
         isLoading
           ? <p className="text-sm font-medium text-white-sesqui px-6 py-4 text-left">Loading ...</p>
-          : <TableGrades content={dataTable} setOpenModal={setOpenModal} setCodeToModal={setCodeToModal} />
+          : <SelectTable content={dataTable} selectedCourses={selectedCourses} setSelectedCourses={setSelectedCourses} />
       }
     </>
   )

@@ -15,7 +15,7 @@ const SelectAcademicHistory = ({ data, historySelected, setHistorySelected }: IS
     Object.entries(data).forEach(([key, value]: any) => {
       arrayObject.push(
         <div key={key} className="flex items-center bg-indigo-sesqui h-fit p-5 rounded-lg">
-          <Checkbox color="blue" checked={key == historySelected} onChange={() => setHistorySelected(key)} />
+          <Checkbox color="amber" checked={key == historySelected} onChange={() => setHistorySelected(key)} />
           <p className="text-white-sesqui text-3xl">{value}</p>
         </div>
       )
@@ -30,9 +30,7 @@ const SelectAcademicHistory = ({ data, historySelected, setHistorySelected }: IS
 
   return (
     <div className="w-full h-full grid justify-center items-center">
-      {
-        items.map(item => item)
-      }
+      {items.map(item => item)}
     </div>
   )
 }
