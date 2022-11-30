@@ -45,7 +45,7 @@ const Layout = ({ children, userRol }: {
             <RiHome3Fill className="w-6 h-6" />
           </ItemOnNavbar>
           {
-            userRol === 'Estudiante'
+            userRol === 'Docente'
               ? (<ItemOnNavbar href='/'>
                 <RiBook3Fill className="w-6 h-6" />
               </ItemOnNavbar>)
