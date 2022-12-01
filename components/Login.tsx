@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@material-tailwind/react";
+import { useState } from "react";
 
 interface Ilogin {
   setIsLoged: Function
@@ -7,8 +8,37 @@ interface Ilogin {
 
 
 const Login = ({ setIsLoged }: Ilogin) => {
-  const handleClick = async (username: string, password: string) => {
-    setIsLoged(true)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleClick = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var graphql = JSON.stringify({
+      query: "query {\n    AllCourses(service: 'CampusKid'){  \n        data\n    }\n}",
+      variables: {}
+    })
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+    };
+
+    fetch("35.239.141.87:5000/graphql", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        setIsLoged(true)
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const handleUsername = (e: any) => {
+    setUsername(e.target.value)
+  }
+
+  const handlePassword = (e: any) => {
+    setPassword(e.target.value)
   }
 
   return (
@@ -24,8 +54,8 @@ const Login = ({ setIsLoged }: Ilogin) => {
             </div>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <Input label="username" size="lg" color="lime" style={{ color: '#F7EED3' }} />
-            <Input label="password" size="lg" type='password' color="lime" style={{ color: '#F7EED3' }} />
+            <Input label="username" size="lg" color="lime" style={{ color: '#F7EED3' }} onChange={handleUsername} value={username} />
+            <Input label="password" size="lg" type='password' color="lime" style={{ color: '#F7EED3' }} onChange={handlePassword} value={password} />
             {/* <div className="-ml-2.5">
               <Checkbox label="Remember Me" />
             </div> */}
@@ -35,7 +65,7 @@ const Login = ({ setIsLoged }: Ilogin) => {
               variant="gradient"
               color="lime"
               fullWidth
-              onClick={() => { handleClick('username', 'password') }}
+              onClick={() => { handleClick() }}
             >
               Sign In
             </Button>
